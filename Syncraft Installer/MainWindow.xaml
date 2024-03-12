@@ -1,0 +1,39 @@
+﻿<Window x:Class="Syncraft_Installer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Syncraft_Installer"
+        mc:Ignorable="d"
+        Title="Syncraft Installer" Height="450" Width="800" ResizeMode="NoResize"
+        x:Name="InstallerWindow">
+    <Grid x:Name="grid">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF20B9D6" Offset="1"/>
+                <GradientStop Color="#FF16A8D8" Offset="0.501"/>
+                <GradientStop Color="#FF1AA8D6" Offset="0.359"/>
+                <GradientStop Color="#FF52ACCA" Offset="0.858"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Left" Height="68" Margin="28,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="727" FontSize="56" TextAlignment="Center" FontFamily="Arial" FontWeight="Bold" Foreground="White"><Run Language="pt-br" Text="Syncraft Installer for Cura"/></TextBlock>
+        <Button Content="Apply latest files for Cura 5.5.0 (Recommended)" HorizontalAlignment="Left" Height="34" Margin="212,217,0,0" VerticalAlignment="Top" Width="316" Click="InstallVersion550_Click" Foreground="#FF3F9014" Background="#FFC6FFC7" BorderBrush="#FF7BEA64"/>
+        <Button Content="Apply latest files for Cura 5.6.0 (Unstable)" HorizontalAlignment="Left" Height="34" Margin="212,271,0,0" VerticalAlignment="Top" Width="316" Click="InstallVersion560_Click" Foreground="#FF86741C" Background="#FFF2FFBB" BorderBrush="#FFAEB17D"/>
+        <Button Content="Apply latest files for Cura 5.7.0 (Unstable)" HorizontalAlignment="Left" Height="34" Margin="212,325,0,0" VerticalAlignment="Top" Width="316" Click="InstallVersion570_Click" Foreground="#FF86741C" Background="#FFF2FFBB" BorderBrush="#FFAEB17D"/>
+        <Button Content="Remove" HorizontalAlignment="Left" Height="34" Margin="538,217,0,0" VerticalAlignment="Top" Width="64" Click="RemoveAll550_Click" Foreground="Red" Background="#FFFFCFCF"/>
+        <Button Content="Remove" HorizontalAlignment="Left" Height="34" Margin="538,271,0,0" VerticalAlignment="Top" Width="64" Click="RemoveAll560_Click" Foreground="Red" Background="#FFFFCFCF"/>
+        <Button Content="Remove" HorizontalAlignment="Left" Height="34" Margin="538,325,0,0" VerticalAlignment="Top" Width="64" Click="RemoveAll570_Click" Foreground="Red" Background="#FFFFCFCF"/>
+        <Button Content="Download Cura" HorizontalAlignment="Left" Height="34" Margin="102,217,0,0" VerticalAlignment="Top" Width="100" Click="DownloadCura550_Click" Foreground="#FF0257FF" Background="#FFD4FFFC" BorderBrush="White"/>
+        <Button Content="Download Cura" HorizontalAlignment="Left" Height="34" Margin="102,271,0,0" VerticalAlignment="Top" Width="100" Click="DownloadCura550_Click" Foreground="#FF0257FF" Background="#FFD4FFFC" BorderBrush="White"/>
+        <Button Content="Download Cura" HorizontalAlignment="Left" Height="34" Margin="102,325,0,0" VerticalAlignment="Top" Width="100" Click="DownloadCura570_Click" Foreground="#FF0257FF" Background="#FFD4FFFC" BorderBrush="White"/>
+        <TextBlock HorizontalAlignment="Center" Height="68" Margin="0,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="728" FontSize="20" TextAlignment="Center" FontFamily="Arial" Foreground="White" Text="The easiest way to install the latest Syncraft files into Cura" FontWeight="Light"/>
+        <TextBlock HorizontalAlignment="Left" Height="20" Margin="715,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" FontSize="14" TextAlignment="Center" FontFamily="Bahnschrift Light" Foreground="White" Text="v1.0.0" FontWeight="Light" RenderTransformOrigin="0.592,0.502"/>
+        <Button Content="Open Folder" HorizontalAlignment="Left" Height="34" Margin="612,217,0,0" VerticalAlignment="Top" Width="86" Click="OpenFolder550_Click" Background="#FFFFC5A3" BorderBrush="#FFBD9B6A" Foreground="#FFB96918"/>
+        <Button Content="Open Folder" HorizontalAlignment="Left" Height="34" Margin="612,271,0,0" VerticalAlignment="Top" Width="86" Click="OpenFolder560_Click" Background="#FFFFC5A3" BorderBrush="#FFBD9B6A" Foreground="#FFB96918"/>
+        <Button Content="Open Folder" HorizontalAlignment="Left" Height="34" Margin="612,325,0,0" VerticalAlignment="Top" Width="86" Click="OpenFolder570_Click" Background="#FFFFC5A3" BorderBrush="#FFBD9B6A" Foreground="#FFB96918"/>
+
+    </Grid>
+</Window>
