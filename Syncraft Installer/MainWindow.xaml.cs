@@ -46,7 +46,6 @@ namespace Syncraft_Installer
                 }
                 catch (Exception ex)
                 {
-                    // Handle deletion errors (e.g., file in use, permissions issues)
                     MessageBox.Show($"Error deleting file {filePath}: {ex.Message}");
                     return;
                 }
@@ -61,7 +60,6 @@ namespace Syncraft_Installer
                 try
                 {
                     byte[] fileData = await client.GetByteArrayAsync(url);
-
                     await File.WriteAllBytesAsync(destinationPath, fileData);
                 }
                 catch (Exception ex)
@@ -75,18 +73,16 @@ namespace Syncraft_Installer
         {
             try
             {
-                // Ensure the extraction directory exists
                 if (!Directory.Exists(extractionPath))
                 {
                     Directory.CreateDirectory(extractionPath);
                 }
 
-                // Extract the contents of the zip file
                 ZipFile.ExtractToDirectory(zipFilePath, extractionPath, true);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error extracting file: {ex.Message}");
+                MessageBox.Show($"Error: {ex.Message}");
             }
         }
 
@@ -112,9 +108,9 @@ namespace Syncraft_Installer
             return Directory.Exists($@"C:\Program Files\Ultimaker Cura {version}\share\cura");
         }
 
-        private void OpenCuraDownloadUrl(string version)
+        private void OpenCuraDownloadUrl(string v)
         {
-            string url = $"https://github.com/Ultimaker/Cura/releases/download/{version}/UltiMaker-Cura-{version}-win64-X64.msi";
+            string url = $"https://github.com/Ultimaker/Cura/releases/download/{v}/UltiMaker-Cura-{v}-win64-X64.msi";
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
 
@@ -124,11 +120,8 @@ namespace Syncraft_Installer
             Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
         }
 
-        async private void InstallVersion550_Click(object sender, RoutedEventArgs e)
+        private void PerformInstall(string v)
         {
-
-            string v = "5.5.0";
-
             if (!CuraInstalled(version: v))
             {
                 MessageBox.Show($"This version ({v}) is not installed.");
@@ -145,147 +138,91 @@ namespace Syncraft_Installer
             await UnzipFileAsync(DestinationPath(version: v), ExtractionPath(version: v));
 
             MessageBox.Show("Done!");
+        }
 
+        private void PerformUninstall(string v)
+        {
+            if (!CuraInstalled(version: v))
+            {
+                MessageBox.Show($"This version ({v}) is not installed.");
+                return;
+            }
+            if (IsCuraRunning())
+            {
+                MessageBox.Show("Close Cura to install.");
+                return;
+            }
+            ClearDirectoryContents(directory: ExtractionPath(version: v));
+        }
+
+        private void PerformOpenFolder(string v)
+        {
+            if (!CuraInstalled(version: v))
+            {
+                MessageBox.Show($"This version ({v}) is not installed.");
+                return;
+            }
+            OpenFileExplorer(version: v);
+        }
+
+        async private void InstallVersion550_Click(object sender, RoutedEventArgs e)
+        {
+            PerformInstall(v: "5.5.0");
         }
 
         async private void InstallVersion560_Click(object sender, RoutedEventArgs e)
         {
-            string v = "5.6.0";
-
-            if (!CuraInstalled(version: v))
-            {
-                MessageBox.Show($"This version ({v}) is not installed.");
-                return;
-            }
-
-            if (IsCuraRunning())
-            {
-                MessageBox.Show("Close Cura to install.");
-                return;
-            }
-
-            await DownloadFileAsync(repoUrl, DestinationPath(version: v));
-            await UnzipFileAsync(DestinationPath(version: v), ExtractionPath(version: v));
-
-            MessageBox.Show("Done!");
+            PerformInstall(v: "5.6.0");
         }
 
         async private void InstallVersion570_Click(object sender, RoutedEventArgs e)
         {
-            string v = "5.7.0";
-
-            if (!CuraInstalled(version: v))
-            {
-                MessageBox.Show($"This version ({v}) is not installed.");
-                return;
-            }
-
-            if (IsCuraRunning())
-            {
-                MessageBox.Show("Close Cura to install.");
-                return;
-            }
-
-            await DownloadFileAsync(repoUrl, DestinationPath(version: v));
-            await UnzipFileAsync(DestinationPath(version: v), ExtractionPath(version: v));
-
-            MessageBox.Show("Done!");
+            PerformInstall(v: "5.7.0");
         }
 
         private void RemoveAll550_Click(object sender, RoutedEventArgs e)
         {
-            string v = "5.5.0";
-            if (!CuraInstalled(version: v))
-            {
-                MessageBox.Show($"This version ({v}) is not installed.");
-                return;
-            }
-            if (IsCuraRunning())
-            {
-                MessageBox.Show("Close Cura to install.");
-                return;
-            }
-            ClearDirectoryContents(directory: ExtractionPath(version: v));
+            PerformUninstall(v: "5.5.0");
         }
 
         private void RemoveAll560_Click(object sender, RoutedEventArgs e)
         {
-            string v = "5.6.0";
-            if (!CuraInstalled(version: v))
-            {
-                MessageBox.Show($"This version ({v}) is not installed.");
-                return;
-            }
-            if (IsCuraRunning())
-            {
-                MessageBox.Show("Close Cura to install.");
-                return;
-            }
-            ClearDirectoryContents(directory: ExtractionPath(version: v));
+            PerformUninstall(v: "5.6.0");
         }
 
         private void RemoveAll570_Click(object sender, RoutedEventArgs e)
         {
-            string v = "5.7.0";
-            if (!CuraInstalled(version: v))
-            {
-                MessageBox.Show($"This version ({v}) is not installed.");
-                return;
-            }
-            if (IsCuraRunning())
-            {
-                MessageBox.Show("Close Cura to install.");
-                return;
-            }
-            ClearDirectoryContents(directory: ExtractionPath(version: v));
+            PerformUninstall(v: "5.7.0");
         }
 
         private void DownloadCura550_Click(object sender, RoutedEventArgs e)
         {
-            OpenCuraDownloadUrl(version: "5.5.0");
+            OpenCuraDownloadUrl(v: "5.5.0");
         }
 
         private void DownloadCura560_Click(object sender, RoutedEventArgs e)
         {
-            OpenCuraDownloadUrl(version: "5.6.0");
+            OpenCuraDownloadUrl(v: "5.6.0");
         }
 
         private void DownloadCura570_Click(object sender, RoutedEventArgs e)
         {
-            OpenCuraDownloadUrl(version: "5.7.0");
+            OpenCuraDownloadUrl(v: "5.7.0");
         }
 
         private void OpenFolder550_Click(object sender, RoutedEventArgs e)
         {
-            string v = "5.5.0";
-            if (!CuraInstalled(version: v))
-            {
-                MessageBox.Show($"This version ({v}) is not installed.");
-                return;
-            }
-            OpenFileExplorer(version: v);
+            PerformOpenFolder(v: "5.5.0");
         }
 
         private void OpenFolder560_Click(object sender, RoutedEventArgs e)
         {
-            string v = "5.6.0";
-            if (!CuraInstalled(version: v))
-            {
-                MessageBox.Show($"This version ({v}) is not installed.");
-                return;
-            }
-            OpenFileExplorer(version: v);
+            PerformOpenFolder(v: "5.6.0");
         }
 
         private void OpenFolder570_Click(object sender, RoutedEventArgs e)
         {
-            string v = "5.7.0";
-            if (!CuraInstalled(version: v))
-            {
-                MessageBox.Show($"This version ({v}) is not installed.");
-                return;
-            }
-            OpenFileExplorer(version: v);
+            PerformOpenFolder(v: "5.7.0");
         }
     }
 }
