@@ -18,6 +18,7 @@ using System.Security.Cryptography.Xml;
 using System.IO.Packaging;
 using System.Security.Policy;
 using System;
+using System.Net.NetworkInformation;
 
 namespace Syncraft_Installer
 {
@@ -33,6 +34,20 @@ namespace Syncraft_Installer
         }
 
         public string repoUrl = "https://github.com/SYNCRAFT-GITHUB/CuraFiles/releases/latest/download/files.zip";
+
+        static bool InternetConnection()
+        {
+            try
+            {
+                Ping ping = new Ping();
+                PingReply reply = ping.Send("www.github.com");
+                return (reply.Status == IPStatus.Success);
+            }
+            catch (PingException)
+            {
+                return false;
+            }
+        }
 
         private void ClearDirectoryContents(string directory)
         {
@@ -50,7 +65,7 @@ namespace Syncraft_Installer
                     return;
                 }
             }
-            MessageBox.Show("Syncraft files removed from Cura.");
+            MessageBox.Show("Syncraft files removed from Cura.", "File Removal");
         }
 
         static async Task DownloadFileAsync(string url, string destinationPath)
@@ -69,7 +84,7 @@ namespace Syncraft_Installer
             }
         }
 
-        private async Task UnzipFileAsync(string zipFilePath, string extractionPath)
+        async private Task UnzipFileAsync(string zipFilePath, string extractionPath)
         {
             try
             {
@@ -82,7 +97,7 @@ namespace Syncraft_Installer
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                MessageBox.Show($"Error: {ex.Message}", "Error");
             }
         }
 
@@ -110,6 +125,11 @@ namespace Syncraft_Installer
 
         private void OpenCuraDownloadUrl(string v)
         {
+            if (!InternetConnection())
+            {
+                MessageBox.Show($"Unable to connect.", "Warning");
+                return;
+            }
             string url = $"https://github.com/Ultimaker/Cura/releases/download/{v}/UltiMaker-Cura-{v}-win64-X64.msi";
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
@@ -120,36 +140,42 @@ namespace Syncraft_Installer
             Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
         }
 
-        private void PerformInstall(string v)
+        async private void PerformInstall(string v)
         {
             if (!CuraInstalled(version: v))
             {
-                MessageBox.Show($"This version ({v}) is not installed.");
+                MessageBox.Show($"This version ({v}) is not installed.", "Warning");
+                return;
+            }
+
+            if (!InternetConnection())
+            {
+                MessageBox.Show($"Unable to download the files, check your Internet connection.", "Warning");
                 return;
             }
 
             if (IsCuraRunning())
             {
-                MessageBox.Show("Close Cura to install.");
+                MessageBox.Show("Close Cura to install.", "Warning");
                 return;
             }
 
             await DownloadFileAsync(repoUrl, DestinationPath(version: v));
             await UnzipFileAsync(DestinationPath(version: v), ExtractionPath(version: v));
 
-            MessageBox.Show("Done!");
+            MessageBox.Show("Installation complete.", "Status");
         }
 
         private void PerformUninstall(string v)
         {
             if (!CuraInstalled(version: v))
             {
-                MessageBox.Show($"This version ({v}) is not installed.");
+                MessageBox.Show($"This version ({v}) is not installed.", "Warning");
                 return;
             }
             if (IsCuraRunning())
             {
-                MessageBox.Show("Close Cura to install.");
+                MessageBox.Show("Close Cura to uninstall Syncraft files.", "Warning");
                 return;
             }
             ClearDirectoryContents(directory: ExtractionPath(version: v));
@@ -159,23 +185,23 @@ namespace Syncraft_Installer
         {
             if (!CuraInstalled(version: v))
             {
-                MessageBox.Show($"This version ({v}) is not installed.");
+                MessageBox.Show($"This version ({v}) is not installed.", "Warning");
                 return;
             }
             OpenFileExplorer(version: v);
         }
 
-        async private void InstallVersion550_Click(object sender, RoutedEventArgs e)
+        private void InstallVersion550_Click(object sender, RoutedEventArgs e)
         {
             PerformInstall(v: "5.5.0");
         }
 
-        async private void InstallVersion560_Click(object sender, RoutedEventArgs e)
+        private void InstallVersion560_Click(object sender, RoutedEventArgs e)
         {
             PerformInstall(v: "5.6.0");
         }
 
-        async private void InstallVersion570_Click(object sender, RoutedEventArgs e)
+        private void InstallVersion570_Click(object sender, RoutedEventArgs e)
         {
             PerformInstall(v: "5.7.0");
         }
