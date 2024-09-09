@@ -191,64 +191,25 @@ namespace Syncraft_Installer
             OpenFileExplorer(version: v);
         }
 
-        private void InstallVersion550_Click(object sender, RoutedEventArgs e)
+        private void InstallVersion581_Click(object sender, RoutedEventArgs e)
         {
-            PerformInstall(v: "5.5.0");
+            PerformInstall(v: "5.8.1");
         }
 
-        private void InstallVersion560_Click(object sender, RoutedEventArgs e)
+        private void RemoveAll581_Click(object sender, RoutedEventArgs e)
         {
-            PerformInstall(v: "5.6.0");
+            PerformUninstall(v: "5.8.1");
         }
 
-        private void InstallVersion570_Click(object sender, RoutedEventArgs e)
+        private void DownloadCura581_Click(object sender, RoutedEventArgs e)
         {
-            PerformInstall(v: "5.7.0");
+            OpenCuraDownloadUrl(v: "5.8.1");
         }
 
-        private void RemoveAll550_Click(object sender, RoutedEventArgs e)
+        private void OpenFolder581_Click(object sender, RoutedEventArgs e)
         {
-            PerformUninstall(v: "5.5.0");
+            PerformOpenFolder(v: "5.8.1");
         }
 
-        private void RemoveAll560_Click(object sender, RoutedEventArgs e)
-        {
-            PerformUninstall(v: "5.6.0");
-        }
-
-        private void RemoveAll570_Click(object sender, RoutedEventArgs e)
-        {
-            PerformUninstall(v: "5.7.0");
-        }
-
-        private void DownloadCura550_Click(object sender, RoutedEventArgs e)
-        {
-            OpenCuraDownloadUrl(v: "5.5.0");
-        }
-
-        private void DownloadCura560_Click(object sender, RoutedEventArgs e)
-        {
-            OpenCuraDownloadUrl(v: "5.6.0");
-        }
-
-        private void DownloadCura570_Click(object sender, RoutedEventArgs e)
-        {
-            OpenCuraDownloadUrl(v: "5.7.0");
-        }
-
-        private void OpenFolder550_Click(object sender, RoutedEventArgs e)
-        {
-            PerformOpenFolder(v: "5.5.0");
-        }
-
-        private void OpenFolder560_Click(object sender, RoutedEventArgs e)
-        {
-            PerformOpenFolder(v: "5.6.0");
-        }
-
-        private void OpenFolder570_Click(object sender, RoutedEventArgs e)
-        {
-            PerformOpenFolder(v: "5.7.0");
-        }
     }
 }
